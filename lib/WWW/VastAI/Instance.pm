@@ -1,5 +1,5 @@
 package WWW::VastAI::Instance;
-
+our $VERSION = '0.002';
 # ABSTRACT: Instance wrapper with convenience lifecycle helpers
 
 use Moo;

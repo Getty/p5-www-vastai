@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Offers;
-
+our $VERSION = '0.002';
 # ABSTRACT: Marketplace offer search for Vast.ai
 
 use Moo;

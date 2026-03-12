@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Endpoints;
-
+our $VERSION = '0.002';
 # ABSTRACT: Serverless endpoint management for Vast.ai
 
 use Moo;

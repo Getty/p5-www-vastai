@@ -1,5 +1,5 @@
 package WWW::VastAI::APIKey;
-
+our $VERSION = '0.002';
 # ABSTRACT: API key wrapper for Vast.ai account credentials
 
 use Moo;

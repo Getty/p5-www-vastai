@@ -1,5 +1,5 @@
 package WWW::VastAI::LWPIO;
-
+our $VERSION = '0.002';
 # ABSTRACT: Default LWP::UserAgent-backed IO backend for WWW::VastAI
 
 use Moo;

@@ -1,5 +1,5 @@
 package WWW::VastAI::SSHKey;
-
+our $VERSION = '0.002';
 # ABSTRACT: Account SSH key wrapper with update and delete helpers
 
 use Moo;

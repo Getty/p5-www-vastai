@@ -1,5 +1,5 @@
 package WWW::VastAI::Role::OperationMap;
-
+our $VERSION = '0.002';
 # ABSTRACT: Central Vast.ai API operation mapping used by WWW::VastAI
 
 use Moo::Role;

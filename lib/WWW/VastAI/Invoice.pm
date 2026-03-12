@@ -1,5 +1,5 @@
 package WWW::VastAI::Invoice;
-
+our $VERSION = '0.002';
 # ABSTRACT: Billing invoice wrapper for Vast.ai account history
 
 use Moo;

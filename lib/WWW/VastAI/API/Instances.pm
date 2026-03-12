@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Instances;
-
+our $VERSION = '0.002';
 # ABSTRACT: Instance lifecycle and helper methods for Vast.ai
 
 use Moo;

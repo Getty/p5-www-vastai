@@ -1,5 +1,5 @@
 package WWW::VastAI::Role::HTTP;
-
+our $VERSION = '0.002';
 # ABSTRACT: Shared synchronous HTTP client role for Vast.ai API consumers
 
 use Moo::Role;

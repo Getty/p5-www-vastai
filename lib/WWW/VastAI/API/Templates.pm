@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Templates;
-
+our $VERSION = '0.002';
 # ABSTRACT: Template listing and management for Vast.ai
 
 use Moo;

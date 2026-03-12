@@ -1,5 +1,5 @@
 package WWW::VastAI::Object;
-
+our $VERSION = '0.002';
 # ABSTRACT: Base entity wrapper for Vast.ai API resources
 
 use Moo;

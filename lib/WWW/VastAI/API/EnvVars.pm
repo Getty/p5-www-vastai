@@ -1,5 +1,5 @@
 package WWW::VastAI::API::EnvVars;
-
+our $VERSION = '0.002';
 # ABSTRACT: Environment variable and secret management for Vast.ai
 
 use Moo;

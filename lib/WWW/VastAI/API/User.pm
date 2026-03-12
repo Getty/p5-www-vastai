@@ -1,5 +1,5 @@
 package WWW::VastAI::API::User;
-
+our $VERSION = '0.002';
 # ABSTRACT: Current-user access for Vast.ai
 
 use Moo;

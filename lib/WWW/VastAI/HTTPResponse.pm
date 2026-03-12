@@ -1,5 +1,5 @@
 package WWW::VastAI::HTTPResponse;
-
+our $VERSION = '0.002';
 # ABSTRACT: Internal HTTP response value object for pluggable IO backends
 
 use Moo;

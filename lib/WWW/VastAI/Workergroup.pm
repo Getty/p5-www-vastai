@@ -1,5 +1,5 @@
 package WWW::VastAI::Workergroup;
-
+our $VERSION = '0.002';
 # ABSTRACT: Serverless workergroup wrapper with management helpers
 
 use Moo;

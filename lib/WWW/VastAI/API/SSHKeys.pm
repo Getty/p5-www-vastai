@@ -1,5 +1,5 @@
 package WWW::VastAI::API::SSHKeys;
-
+our $VERSION = '0.002';
 # ABSTRACT: Account SSH key management for Vast.ai
 
 use Moo;

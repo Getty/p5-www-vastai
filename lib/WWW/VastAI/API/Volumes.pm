@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Volumes;
-
+our $VERSION = '0.002';
 # ABSTRACT: Volume creation and deletion for Vast.ai
 
 use Moo;

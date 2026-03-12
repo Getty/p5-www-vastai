@@ -16,7 +16,7 @@ use WWW::VastAI::API::Volumes;
 use WWW::VastAI::API::Workergroups;
 use namespace::clean;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 has api_key => (
     is      => 'ro',

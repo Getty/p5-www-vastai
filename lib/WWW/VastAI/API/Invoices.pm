@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Invoices;
-
+our $VERSION = '0.002';
 # ABSTRACT: Invoice listing for Vast.ai v1 billing endpoints
 
 use Moo;

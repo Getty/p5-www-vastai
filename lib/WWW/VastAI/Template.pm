@@ -1,5 +1,5 @@
 package WWW::VastAI::Template;
-
+our $VERSION = '0.002';
 # ABSTRACT: Template wrapper with update and delete helpers
 
 use Moo;

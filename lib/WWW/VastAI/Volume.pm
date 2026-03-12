@@ -1,5 +1,5 @@
 package WWW::VastAI::Volume;
-
+our $VERSION = '0.002';
 # ABSTRACT: Volume wrapper for Vast.ai storage resources
 
 use Moo;

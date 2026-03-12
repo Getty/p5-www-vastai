@@ -1,5 +1,5 @@
 package WWW::VastAI::Role::IO;
-
+our $VERSION = '0.002';
 # ABSTRACT: Role for pluggable HTTP backends used by WWW::VastAI
 
 use Moo::Role;

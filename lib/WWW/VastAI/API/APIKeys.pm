@@ -1,5 +1,5 @@
 package WWW::VastAI::API::APIKeys;
-
+our $VERSION = '0.002';
 # ABSTRACT: API key management for Vast.ai
 
 use Moo;

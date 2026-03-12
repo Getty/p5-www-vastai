@@ -1,5 +1,5 @@
 package WWW::VastAI::Endpoint;
-
+our $VERSION = '0.002';
 # ABSTRACT: Serverless endpoint wrapper with worker and log helpers
 
 use Moo;

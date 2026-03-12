@@ -1,5 +1,5 @@
 package WWW::VastAI::User;
-
+our $VERSION = '0.002';
 # ABSTRACT: Current-user payload wrapper for Vast.ai accounts
 
 use Moo;

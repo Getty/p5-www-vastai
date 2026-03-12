@@ -1,5 +1,5 @@
 package WWW::VastAI::HTTPRequest;
-
+our $VERSION = '0.002';
 # ABSTRACT: Internal HTTP request value object for pluggable IO backends
 
 use Moo;

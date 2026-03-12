@@ -1,5 +1,5 @@
 package WWW::VastAI::API::Workergroups;
-
+our $VERSION = '0.002';
 # ABSTRACT: Workergroup management for Vast.ai serverless
 
 use Moo;
