@@ -1,0 +1,86 @@
+package WWW::VastAI::API::Endpoints;
+
+# ABSTRACT: Serverless endpoint management for Vast.ai
+
+use Moo;
+use Carp qw(croak);
+use WWW::VastAI::Endpoint;
+use namespace::clean;
+
+has client => (
+    is       => 'ro',
+    required => 1,
+    weak_ref => 1,
+);
+
+sub _wrap {
+    my ($self, $data) = @_;
+    return WWW::VastAI::Endpoint->new(
+        client => $self->client,
+        data   => $data,
+    );
+}
+
+sub list {
+    my ($self) = @_;
+    my $result = $self->client->request_op('listEndpoints');
+    my $endpoints = ref $result eq 'HASH' ? ($result->{endpoints} || $result->{results} || []) : ($result || []);
+    return [ map { $self->_wrap($_) } @{$endpoints} ];
+}
+
+sub create {
+    my ($self, %params) = @_;
+    croak "endpoint_name required" unless $params{endpoint_name};
+    croak "min_load required"      unless exists $params{min_load};
+    croak "target_util required"   unless exists $params{target_util};
+
+    my $result = $self->client->request_op('createEndpoint', body => \%params);
+    my $endpoint = ref $result eq 'HASH' ? ($result->{endpoint} || $result) : $result;
+    return $self->_wrap($endpoint);
+}
+
+sub delete {
+    my ($self, $id) = @_;
+    croak "endpoint id required" unless defined $id;
+    return $self->client->request_op('deleteEndpoint', path => { id => $id });
+}
+
+sub logs {
+    my ($self, $endpoint_name, %params) = @_;
+    croak "endpoint_name required" unless $endpoint_name;
+    my %body = ( endpoint_name => $endpoint_name, %params );
+    return $self->client->request_op('getEndpointLogs', body => \%body);
+}
+
+sub workers {
+    my ($self, $endpoint_id) = @_;
+    croak "endpoint id required" unless defined $endpoint_id;
+    return $self->client->request_op('getEndpointWorkers', body => { endpoint_id => $endpoint_id });
+}
+
+1;
+
+=head1 DESCRIPTION
+
+Provides access to Vast.ai serverless endpoint management plus helper calls for
+endpoint workers and logs.
+
+=head1 METHODS
+
+=head2 list
+
+=head2 create
+
+=head2 delete
+
+Manage endpoint definitions.
+
+=head2 workers
+
+Fetches worker information for a serverless endpoint.
+
+=head2 logs
+
+Fetches logs for a serverless endpoint by endpoint name.
+
+=cut
