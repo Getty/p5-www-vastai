@@ -22,7 +22,11 @@ sub logs {
 
 sub update {
     my ($self, %params) = @_;
-    return $self->_replace_data($self->_client->workergroups->update($self->id, %params)->raw);
+    my $updated = $self->_client->workergroups->update($self->id, %params)->raw;
+    return $self->_replace_data({
+        %{ $self->raw },
+        %{$updated},
+    });
 }
 
 sub delete {

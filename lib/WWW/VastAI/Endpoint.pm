@@ -14,6 +14,20 @@ sub workers {
     return $self->_client->endpoints->workers($self->id);
 }
 
+sub update {
+    my ($self, %params) = @_;
+    my $updated = $self->_client->endpoints->update($self->id, %params)->raw;
+    return $self->_replace_data({
+        %{ $self->raw },
+        %{$updated},
+    });
+}
+
+sub route {
+    my ($self, %params) = @_;
+    return $self->_client->endpoints->route($self->endpoint_name, %params);
+}
+
 sub logs {
     my ($self, %params) = @_;
     return $self->_client->endpoints->logs($self->endpoint_name, %params);
@@ -50,6 +64,18 @@ Returns the API key associated with the endpoint when present.
     my $workers = $endpoint->workers;
 
 Fetches worker information for the endpoint.
+
+=head2 update
+
+    $endpoint->update(min_load => 1);
+
+Updates the endpoint and merges the returned fields into the local payload.
+
+=head2 route
+
+    my $result = $endpoint->route(input => 'ping');
+
+Sends a synchronous request through the endpoint's route API.
 
 =head2 logs
 

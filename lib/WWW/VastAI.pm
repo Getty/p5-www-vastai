@@ -138,17 +138,19 @@ WWW::VastAI provides a Perl client for the Vast.ai REST APIs. It covers:
 
 =item * marketplace offer search
 
-=item * instance lifecycle and instance SSH/log helpers
+=item * instance lifecycle, bid/prepay/recycle helpers, and instance
+SSH/log/command helpers
 
 =item * templates
 
 =item * volumes
 
-=item * SSH keys, API keys, user profile, env vars
+=item * SSH keys, API keys, user profile, subaccounts, cloud integrations,
+IP history, credit transfer, and env vars
 
 =item * invoices (v1)
 
-=item * serverless endpoints, workergroups, logs and workers
+=item * serverless endpoints, route requests, workergroups, logs and workers
 
 =back
 

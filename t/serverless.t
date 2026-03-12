@@ -29,15 +29,26 @@ subtest 'serverless endpoints and workergroups' => sub {
                 },
             };
         },
+        'PUT /endptjobs/501/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{min_load}, 1, 'endpoint update body');
+            return { success => 1 };
+        },
         'DELETE /endptjobs/501/' => { success => 1 },
+        'POST /route/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{endpoint}, 'llama-prod', 'route endpoint body');
+            is($opts{body}{input}, 'ping', 'route input body');
+            return { result => 'pong' };
+        },
         'POST /get_endpoint_workers/' => sub {
             my ($method, $path, %opts) = @_;
-            is($opts{body}{endpoint_id}, 501, 'endpoint workers body');
+            is($opts{body}{id}, 501, 'endpoint workers body');
             return { workers => [ { machine_id => 7 } ] };
         },
         'POST /get_endpoint_logs/' => sub {
             my ($method, $path, %opts) = @_;
-            is($opts{body}{endpoint_name}, 'llama-prod', 'endpoint logs body');
+            is($opts{body}{endpoint}, 'llama-prod', 'endpoint logs body');
             return { logs => "boot ok\n" };
         },
         'GET /workergroups/' => {
@@ -74,12 +85,12 @@ subtest 'serverless endpoints and workergroups' => sub {
         'DELETE /workergroups/801/' => { success => 1 },
         'POST /get_workergroup_workers/' => sub {
             my ($method, $path, %opts) = @_;
-            is($opts{body}{workergroup_id}, 801, 'workergroup workers body');
+            is($opts{body}{id}, 801, 'workergroup workers body');
             return { workers => [ { machine_id => 99 } ] };
         },
         'POST /get_workergroup_logs/' => sub {
             my ($method, $path, %opts) = @_;
-            is($opts{body}{workergroup_id}, 801, 'workergroup logs body');
+            is($opts{body}{id}, 801, 'workergroup logs body');
             return { logs => "worker ready\n" };
         },
     );
@@ -89,6 +100,8 @@ subtest 'serverless endpoints and workergroups' => sub {
     is($endpoints->[0]->endpoint_name, 'llama-prod', 'endpoint list wraps data');
     is($endpoints->[0]->workers->{workers}[0]{machine_id}, 7, 'endpoint workers');
     like($endpoints->[0]->logs->{logs}, qr/boot ok/, 'endpoint logs');
+    is($endpoints->[0]->route(input => 'ping')->{result}, 'pong', 'endpoint route');
+    is($endpoints->[0]->update(min_load => 1)->raw->{min_load}, 1, 'endpoint update');
     ok($endpoints->[0]->delete->{success}, 'endpoint delete');
 
     my $created_endpoint = $vast->endpoints->create(

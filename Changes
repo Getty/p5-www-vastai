@@ -2,6 +2,16 @@ Revision history for WWW-VastAI
 
 {{$NEXT}}
 
+    - Add more synchronous Vast.ai API coverage:
+      - account helpers for subaccounts, cloud integrations, IP history,
+        profile updates, and credit transfer
+      - instance helpers for bid updates, deposit lookup, prepay, reboot,
+        recycle, and remote command execution
+      - serverless endpoint update and synchronous route requests
+    - Align serverless worker/log helper requests with the documented
+      run.vast.ai request fields
+    - Add mock coverage for the new account, instance, and serverless helpers
+
 0.001     2026-03-12 06:05:32Z
 
     - Simplify live-test gating:

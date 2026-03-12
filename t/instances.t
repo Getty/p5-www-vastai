@@ -46,6 +46,26 @@ subtest 'instance lifecycle and helpers' => sub {
             $instance_101->{actual_status} = $opts{body}{state} if exists $opts{body}{state};
             return { success => 1 };
         },
+        'PUT /instances/bid_price/101/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{price}, 0.42, 'bid price forwarded');
+            return { success => 1 };
+        },
+        'GET /instances/balance/101/' => {
+            balance => '9.50',
+        },
+        'PUT /instances/prepay/101/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{amount}, 12.5, 'prepay amount forwarded');
+            return { success => 1 };
+        },
+        'PUT /instances/reboot/101/' => { success => 1 },
+        'PUT /instances/recycle/101/' => { success => 1 },
+        'PUT /instances/command/101/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{command}, 'nvidia-smi', 'command forwarded');
+            return { success => 1, result_url => 'https://results.example.invalid/101' };
+        },
         'PUT /instances/request_logs/101' => sub {
             my ($method, $path, %opts) = @_;
             is($opts{body}{tail}, 5, 'tail forwarded');
@@ -86,6 +106,12 @@ subtest 'instance lifecycle and helpers' => sub {
 
     my $stopped = $vast->instances->stop(101);
     is($stopped->actual_status, 'stopped', 'stop maps to state update');
+    ok($instance->bid_price(0.42)->{success}, 'bid price update');
+    is($instance->deposit->{balance}, '9.50', 'deposit lookup');
+    ok($instance->prepay(amount => 12.5)->{success}, 'prepay');
+    ok($instance->reboot->{success}, 'reboot');
+    ok($instance->recycle->{success}, 'recycle');
+    like($instance->execute('nvidia-smi')->{result_url}, qr/results\.example/, 'execute returns result url');
 
     my $logs = $vast->instances->logs(101, tail => 5);
     like($logs, qr/line-a/, 'logs returned');

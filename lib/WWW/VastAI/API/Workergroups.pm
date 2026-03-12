@@ -49,6 +49,10 @@ sub update {
     );
 
     my $group = ref $result eq 'HASH' ? ($result->{workergroup} || $result) : $result;
+    $group = {
+        id => $id,
+        %params,
+    } if ref $result eq 'HASH' && !$result->{workergroup} && $result->{success};
     return $self->_wrap($group);
 }
 
@@ -61,14 +65,14 @@ sub delete {
 sub logs {
     my ($self, $id, %params) = @_;
     croak "workergroup id required" unless defined $id;
-    my %body = ( workergroup_id => $id, %params );
+    my %body = ( id => $id, %params );
     return $self->client->request_op('getWorkergroupLogs', body => \%body);
 }
 
 sub workers {
     my ($self, $id) = @_;
     croak "workergroup id required" unless defined $id;
-    return $self->client->request_op('getWorkergroupWorkers', body => { workergroup_id => $id });
+    return $self->client->request_op('getWorkergroupWorkers', body => { id => $id });
 }
 
 1;

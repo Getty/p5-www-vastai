@@ -50,6 +50,48 @@ subtest 'account resources cover keys, env vars, user and invoices' => sub {
                 sid     => 'user-99',
             },
         },
+        'PUT /users/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{full_name}, 'Ops Bot', 'user update body');
+            return {
+                user => {
+                    id        => 99,
+                    email     => 'ops@example.invalid',
+                    full_name => 'Ops Bot',
+                },
+            };
+        },
+        'POST /users/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{email}, 'bot@example.invalid', 'subaccount email');
+            return {
+                user => {
+                    id    => 199,
+                    email => 'bot@example.invalid',
+                },
+            };
+        },
+        'GET /users/cloud_integrations/' => {
+            cloud_integrations => [
+                { provider => 'aws', account_id => '123456789012' },
+            ],
+        },
+        'GET /users/me/ipaddrs/' => {
+            ipaddrs => [
+                '198.51.100.10',
+            ],
+        },
+        'GET /subaccounts/' => {
+            users => [
+                { id => 199, email => 'bot@example.invalid' },
+            ],
+        },
+        'PUT /commands/transfer_credit/' => sub {
+            my ($method, $path, %opts) = @_;
+            is($opts{body}{recipient}, 'bot@example.invalid', 'credit recipient');
+            is($opts{body}{amount}, 25, 'credit amount');
+            return { success => 1 };
+        },
         'GET /secrets/' => {
             secrets => {
                 HF_TOKEN => 'secret',
@@ -98,6 +140,12 @@ subtest 'account resources cover keys, env vars, user and invoices' => sub {
     my $user = $vast->user->current;
     isa_ok($user, 'WWW::VastAI::User');
     is($user->email, 'ops@example.invalid', 'user email');
+    is($vast->user->update(full_name => 'Ops Bot')->raw->{full_name}, 'Ops Bot', 'user update');
+    is($vast->user->create_subaccount(email => 'bot@example.invalid')->id, 199, 'subaccount create');
+    is($vast->user->connections->[0]{provider}, 'aws', 'cloud integrations');
+    is($vast->user->ipaddrs->[0], '198.51.100.10', 'ipaddrs list');
+    isa_ok($vast->user->subaccounts->[0], 'WWW::VastAI::User');
+    ok($vast->user->transfer_credit(recipient => 'bot@example.invalid', amount => 25)->{success}, 'credit transfer');
 
     my $secrets = $vast->env_vars->list;
     is($secrets->{HF_TOKEN}, 'secret', 'env vars listed');

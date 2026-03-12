@@ -15,9 +15,9 @@ cpanm WWW::VastAI
 - templates
 - volumes
 - SSH keys and API keys
-- current user and env vars
+- current user, subaccounts, cloud integrations, IP history, and env vars
 - invoices
-- serverless endpoints and workergroups
+- serverless endpoints, synchronous route calls, and workergroups
 
 ## Basic usage
 
@@ -42,9 +42,20 @@ my $instance = $offers->[0]->create_instance(
     runtype => 'ssh',
 );
 
+$instance->bid_price(0.42);
+$instance->execute('nvidia-smi');
+
 my $templates = $vast->templates->list(
     select_filters => { use_ssh => { eq => \1 } },
 );
+
+my $endpoint = $vast->endpoints->create(
+    endpoint_name => 'llama-dev',
+    min_load      => 0,
+    target_util   => 0.7,
+);
+
+my $route = $endpoint->route(input => 'ping');
 ```
 
 ## Tests

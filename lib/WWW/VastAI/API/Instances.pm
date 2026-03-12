@@ -102,6 +102,60 @@ sub label {
     return $self->update($id, label => $label);
 }
 
+sub bid_price {
+    my ($self, $id, $price) = @_;
+    croak "instance id required" unless defined $id;
+    croak "bid price required" unless defined $price;
+
+    return $self->client->request_op(
+        'changeInstanceBid',
+        path => { id => $id },
+        body => { price => $price },
+    );
+}
+
+sub deposit {
+    my ($self, $id) = @_;
+    croak "instance id required" unless defined $id;
+    return $self->client->request_op('getInstanceDeposit', path => { id => $id });
+}
+
+sub prepay {
+    my ($self, $id, %params) = @_;
+    croak "instance id required" unless defined $id;
+    return $self->client->request_op(
+        'prepayInstance',
+        path => { id => $id },
+        body => \%params,
+    );
+}
+
+sub reboot {
+    my ($self, $id) = @_;
+    croak "instance id required" unless defined $id;
+    return $self->client->request_op('rebootInstance', path => { id => $id });
+}
+
+sub recycle {
+    my ($self, $id) = @_;
+    croak "instance id required" unless defined $id;
+    return $self->client->request_op('recycleInstance', path => { id => $id });
+}
+
+sub execute {
+    my ($self, $id, $command, %params) = @_;
+    croak "instance id required" unless defined $id;
+    croak "command required" unless defined $command && length $command;
+    return $self->client->request_op(
+        'executeInstanceCommand',
+        path => { id => $id },
+        body => {
+            command => $command,
+            %params,
+        },
+    );
+}
+
 sub delete {
     my ($self, $id) = @_;
     croak "instance id required" unless defined $id;
@@ -228,6 +282,34 @@ Stops the instance identified by C<$id>.
 =head2 label
 
 Updates the instance label via C<update>.
+
+=head2 bid_price
+
+    $vast->instances->bid_price($id, 0.42);
+
+Updates the instance bid price and returns the raw API response.
+
+=head2 deposit
+
+Returns the current deposit or balance information for the instance.
+
+=head2 prepay
+
+Prepays an instance and returns the raw API response.
+
+=head2 reboot
+
+Requests an in-place reboot for the instance.
+
+=head2 recycle
+
+Requests instance recycle for the given ID.
+
+=head2 execute
+
+    my $result = $vast->instances->execute($id, 'nvidia-smi');
+
+Runs a command on the instance and returns the raw API response.
 
 =head2 delete
 

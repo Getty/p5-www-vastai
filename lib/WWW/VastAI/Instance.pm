@@ -46,6 +46,36 @@ sub set_label {
     return $self;
 }
 
+sub bid_price {
+    my ($self, $price) = @_;
+    return $self->_client->instances->bid_price($self->id, $price);
+}
+
+sub deposit {
+    my ($self) = @_;
+    return $self->_client->instances->deposit($self->id);
+}
+
+sub prepay {
+    my ($self, %params) = @_;
+    return $self->_client->instances->prepay($self->id, %params);
+}
+
+sub reboot {
+    my ($self) = @_;
+    return $self->_client->instances->reboot($self->id);
+}
+
+sub recycle {
+    my ($self) = @_;
+    return $self->_client->instances->recycle($self->id);
+}
+
+sub execute {
+    my ($self, $command, %params) = @_;
+    return $self->_client->instances->execute($self->id, $command, %params);
+}
+
 sub logs {
     my ($self, %params) = @_;
     return $self->_client->instances->logs($self->id, %params);
@@ -153,6 +183,32 @@ Updates the instance label and mirrors the new label into the local payload.
     my $logs = $instance->logs(%params);
 
 Fetches instance logs through L<WWW::VastAI::API::Instances>.
+
+=head2 bid_price
+
+Updates the instance bid price and returns the raw API response.
+
+=head2 deposit
+
+Returns current deposit information for the instance.
+
+=head2 prepay
+
+Prepays the instance and returns the raw API response.
+
+=head2 reboot
+
+Requests an instance reboot and returns the raw API response.
+
+=head2 recycle
+
+Requests instance recycle and returns the raw API response.
+
+=head2 execute
+
+    my $result = $instance->execute('nvidia-smi');
+
+Runs a command on the instance and returns the raw API response.
 
 =head2 ssh_keys
 
