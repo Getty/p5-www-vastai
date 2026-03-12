@@ -52,10 +52,14 @@ Returns the current env-var/secrets structure from the API.
 
 =head2 create
 
+Creates a new environment variable or secret.
+
 =head2 update
+
+Updates an existing environment variable or secret.
 
 =head2 delete
 
-Create, update, or delete an environment variable/secret.
+Deletes the named environment variable or secret.
 
 =cut

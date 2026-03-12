@@ -1,5 +1,7 @@
 package WWW::VastAI::Instance;
 
+# ABSTRACT: Instance wrapper with convenience lifecycle helpers
+
 use Moo;
 extends 'WWW::VastAI::Object';
 
@@ -70,3 +72,106 @@ sub delete {
 }
 
 1;
+
+=head1 DESCRIPTION
+
+L<WWW::VastAI::Instance> wraps an instance payload and exposes convenience
+helpers for lifecycle operations, log access, and per-instance SSH-key
+management through L<WWW::VastAI::API::Instances>.
+
+=head1 METHODS
+
+=head2 label
+
+Returns the instance label.
+
+=head2 actual_status
+
+Returns the current status reported by Vast.ai.
+
+=head2 intended_status
+
+Returns the requested target status when present.
+
+=head2 ssh_host
+
+Returns the SSH host for the instance.
+
+=head2 ssh_port
+
+Returns the SSH port for the instance.
+
+=head2 public_ipaddr
+
+Returns the public IP address when assigned.
+
+=head2 gpu_name
+
+Returns the GPU model name.
+
+=head2 num_gpus
+
+Returns the GPU count.
+
+=head2 is_running
+
+True when C<actual_status> is C<running>.
+
+=head2 is_stopped
+
+True when C<actual_status> is C<stopped>.
+
+=head2 refresh
+
+    $instance->refresh;
+
+Reloads the instance payload from the API and updates the object in place.
+
+=head2 update
+
+    $instance->update(%params);
+
+Sends an instance update request and replaces the local payload with the
+returned data.
+
+=head2 start
+
+Requests that the instance be started and returns the current object.
+
+=head2 stop
+
+Requests that the instance be stopped and returns the current object.
+
+=head2 set_label
+
+    $instance->set_label('worker-a');
+
+Updates the instance label and mirrors the new label into the local payload.
+
+=head2 logs
+
+    my $logs = $instance->logs(%params);
+
+Fetches instance logs through L<WWW::VastAI::API::Instances>.
+
+=head2 ssh_keys
+
+Returns the attached SSH keys for the instance.
+
+=head2 attach_ssh_key
+
+Attaches a public SSH key to the instance.
+
+=head2 detach_ssh_key
+
+Detaches a previously attached SSH key from the instance.
+
+=head2 delete
+
+Deletes the instance and returns the raw API response.
+
+=head1 SEE ALSO
+
+L<WWW::VastAI>, L<WWW::VastAI::API::Instances>
+
+=cut

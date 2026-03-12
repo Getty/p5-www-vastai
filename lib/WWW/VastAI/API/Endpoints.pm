@@ -69,11 +69,15 @@ endpoint workers and logs.
 
 =head2 list
 
+Returns an arrayref of L<WWW::VastAI::Endpoint> objects.
+
 =head2 create
+
+Creates a new endpoint and returns it as a L<WWW::VastAI::Endpoint> object.
 
 =head2 delete
 
-Manage endpoint definitions.
+Deletes the endpoint identified by C<$id>.
 
 =head2 workers
 

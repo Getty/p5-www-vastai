@@ -219,11 +219,15 @@ Sends an instance update and returns a refreshed object.
 
 =head2 start
 
+Starts the instance identified by C<$id>.
+
 =head2 stop
+
+Stops the instance identified by C<$id>.
 
 =head2 label
 
-Convenience wrappers around C<update>.
+Updates the instance label via C<update>.
 
 =head2 delete
 
@@ -236,10 +240,14 @@ that URL and returns the decoded log content.
 
 =head2 ssh_keys
 
+Returns the SSH keys attached to the instance.
+
 =head2 attach_ssh_key
+
+Attaches a public SSH key to the instance.
 
 =head2 detach_ssh_key
 
-Helpers for the per-instance SSH-key management endpoints.
+Detaches an SSH key from the instance.
 
 =cut

@@ -1,5 +1,7 @@
 package WWW::VastAI::Object;
 
+# ABSTRACT: Base entity wrapper for Vast.ai API resources
+
 use Moo;
 
 has _client => (
@@ -24,3 +26,30 @@ sub _replace_data {
 }
 
 1;
+
+=head1 DESCRIPTION
+
+L<WWW::VastAI::Object> stores the raw decoded API payload for a resource object
+and keeps a weak reference back to the owning L<WWW::VastAI> client. Resource
+classes such as L<WWW::VastAI::Offer> and L<WWW::VastAI::Instance> inherit from
+this class.
+
+=head1 METHODS
+
+=head2 id
+
+    my $id = $object->id;
+
+Returns the resource identifier from the underlying payload.
+
+=head2 raw
+
+    my $payload = $object->raw;
+
+Returns the raw decoded payload hashref for the resource.
+
+=head1 SEE ALSO
+
+L<WWW::VastAI>, L<WWW::VastAI::Offer>, L<WWW::VastAI::Instance>
+
+=cut

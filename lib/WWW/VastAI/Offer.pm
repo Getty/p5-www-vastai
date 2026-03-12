@@ -1,5 +1,7 @@
 package WWW::VastAI::Offer;
 
+# ABSTRACT: Marketplace offer wrapper returned by Vast.ai searches
+
 use Moo;
 extends 'WWW::VastAI::Object';
 
@@ -18,3 +20,48 @@ sub create_instance {
 }
 
 1;
+
+=head1 DESCRIPTION
+
+L<WWW::VastAI::Offer> wraps a single marketplace offer returned by
+L<WWW::VastAI::API::Offers>. It provides small convenience accessors for common
+offer fields and a helper to create an instance from the selected offer.
+
+=head1 METHODS
+
+=head2 ask_contract_id
+
+    my $offer_id = $offer->ask_contract_id;
+
+Returns the ask contract identifier used for instance creation. If the payload
+does not provide a dedicated C<ask_contract_id>, the regular resource C<id> is
+used as a fallback.
+
+=head2 gpu_name
+
+Returns the GPU model for the offer.
+
+=head2 num_gpus
+
+Returns the number of GPUs in the offer.
+
+=head2 dph_total
+
+Returns the hourly price field from the offer payload.
+
+=head2 machine_id
+
+Returns the provider machine identifier.
+
+=head2 create_instance
+
+    my $instance = $offer->create_instance(%params);
+
+Creates a new L<WWW::VastAI::Instance> via the parent client using this offer's
+contract ID.
+
+=head1 SEE ALSO
+
+L<WWW::VastAI>, L<WWW::VastAI::API::Offers>, L<WWW::VastAI::Instance>
+
+=cut

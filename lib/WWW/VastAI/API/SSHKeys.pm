@@ -68,12 +68,18 @@ L<WWW::VastAI::SSHKey> objects.
 
 =head2 list
 
+Returns an arrayref of L<WWW::VastAI::SSHKey> objects.
+
 =head2 create
+
+Creates a new SSH key and returns it as a L<WWW::VastAI::SSHKey> object.
 
 =head2 update
 
+Updates an existing SSH key and returns the refreshed object.
+
 =head2 delete
 
-Standard CRUD operations for account SSH keys.
+Deletes the SSH key identified by C<$id>.
 
 =cut

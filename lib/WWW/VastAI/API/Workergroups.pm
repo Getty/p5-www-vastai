@@ -82,13 +82,19 @@ worker and log inspection.
 
 =head2 list
 
+Returns an arrayref of L<WWW::VastAI::Workergroup> objects.
+
 =head2 create
+
+Creates a workergroup and returns it as a L<WWW::VastAI::Workergroup> object.
 
 =head2 update
 
+Updates the workergroup identified by C<$id>.
+
 =head2 delete
 
-Manage workergroups.
+Deletes the workergroup identified by C<$id>.
 
 =head2 workers
 

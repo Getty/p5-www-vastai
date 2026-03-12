@@ -71,10 +71,14 @@ string by the shared HTTP layer.
 
 =head2 create
 
+Creates a new template and returns it as a L<WWW::VastAI::Template> object.
+
 =head2 update
+
+Updates an existing template identified by C<$hash_id>.
 
 =head2 delete
 
-Create, update, or delete template definitions.
+Deletes the template identified by C<$id>.
 
 =cut

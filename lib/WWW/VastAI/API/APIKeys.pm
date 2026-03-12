@@ -54,8 +54,14 @@ L<WWW::VastAI::APIKey> objects.
 
 =head2 list
 
+Returns an arrayref of L<WWW::VastAI::APIKey> objects.
+
 =head2 create
 
+Creates a new API key and returns it as a L<WWW::VastAI::APIKey> object.
+
 =head2 delete
+
+Deletes the API key identified by C<$id>.
 
 =cut

@@ -1,5 +1,7 @@
 package WWW::VastAI::Workergroup;
 
+# ABSTRACT: Serverless workergroup wrapper with management helpers
+
 use Moo;
 extends 'WWW::VastAI::Object';
 
@@ -29,3 +31,50 @@ sub delete {
 }
 
 1;
+
+=head1 DESCRIPTION
+
+L<WWW::VastAI::Workergroup> wraps a serverless workergroup managed through
+L<WWW::VastAI::API::Workergroups>.
+
+=head1 METHODS
+
+=head2 endpoint_name
+
+Returns the endpoint name this workergroup belongs to.
+
+=head2 endpoint_id
+
+Returns the endpoint identifier when present.
+
+=head2 template_hash
+
+Returns the template hash used by the workergroup.
+
+=head2 api_key
+
+Returns the API key associated with the workergroup when present.
+
+=head2 workers
+
+Returns worker information for the workergroup.
+
+=head2 logs
+
+Returns workergroup logs.
+
+=head2 update
+
+    $group->update(%params);
+
+Updates the workergroup and refreshes the local payload.
+
+=head2 delete
+
+Deletes the workergroup and returns the raw API response.
+
+=head1 SEE ALSO
+
+L<WWW::VastAI>, L<WWW::VastAI::API::Workergroups>, L<WWW::VastAI::Endpoint>
+
+=cut

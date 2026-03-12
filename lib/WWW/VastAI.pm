@@ -1,5 +1,7 @@
 package WWW::VastAI;
 
+# ABSTRACT: Perl client for the Vast.ai REST APIs
+
 use Moo;
 use WWW::VastAI::API::APIKeys;
 use WWW::VastAI::API::Endpoints;
@@ -100,8 +102,6 @@ has workergroups => (
 
 1;
 
-__END__
-
 =head1 SYNOPSIS
 
     use WWW::VastAI;
@@ -172,5 +172,11 @@ The distribution ships with three optional live tests:
 These tests are skipped unless the corresponding environment variables are set.
 Use C<VAST_LIVE_TEST=1> for read-only live coverage and add
 C<VAST_LIVE_ALLOW_COST=1> to enable the instance and volume lifecycle tests.
+
+=head1 SEE ALSO
+
+L<WWW::VastAI::API::Offers>, L<WWW::VastAI::API::Instances>,
+L<WWW::VastAI::API::Templates>, L<WWW::VastAI::API::Volumes>,
+L<WWW::VastAI::API::Endpoints>, L<WWW::VastAI::API::Workergroups>
 
 =cut

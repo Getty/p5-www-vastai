@@ -6,6 +6,9 @@ Revision history for WWW-VastAI
       - C<VAST_LIVE_TEST=1> enables read-only live coverage
       - C<VAST_LIVE_ALLOW_COST=1> enables all cost-incurring live tests,
         including instance and volume lifecycle tests
+    - Add POD for the entity, transport, and IO helper classes
+    - Add direct unit tests for entity accessors and the LWP IO adapter
+    - Refresh README installation and usage examples
 
 0.001     2026-03-12
     - Initial release
