@@ -1,6 +1,6 @@
 Revision history for WWW-VastAI
 
-{{$NEXT}}
+0.001     2026-03-12 06:05:32Z
 
     - Simplify live-test gating:
       - C<VAST_LIVE_TEST=1> enables read-only live coverage
