@@ -4,8 +4,8 @@ description: "Write Perl POD for a SINGLE distribution. Supports Dist::Zilla (an
 tools: Read, Grep, Glob, Edit
 model: sonnet
 skills:
-  - dzil-distini
-  - dzil-author-getty
+  - perl-release-dist-ini
+  - perl-release-author-getty
 ---
 
 You write POD documentation for Perl distributions.
@@ -20,8 +20,8 @@ ls dist.ini && echo "Dist::Zilla" || echo "Plain"
 ## For Dist::Zilla Distributions
 
 Use skills to understand configuration:
-- `dzil-author-getty` for @Author::GETTY
-- `dzil-distini` for other plugin bundles
+- `perl-release-author-getty` for @Author::GETTY
+- `perl-release-dist-ini` for other plugin bundles
 
 ## For Plain Distributions
 
