@@ -2,27 +2,22 @@ Revision history for WWW-VastAI
 
 {{$NEXT}}
 
-    - Add more synchronous Vast.ai API coverage:
-      - account helpers for subaccounts, cloud integrations, IP history,
-        profile updates, and credit transfer
-      - instance helpers for bid updates, deposit lookup, prepay, reboot,
-        recycle, and remote command execution
+    - Expand synchronous Vast.ai API coverage:
+      - account helpers via API::User for profile updates, subaccounts,
+        cloud integrations, IP history, and credit transfer
+      - instance helpers via API::Instances for bid updates, deposit lookup,
+        prepay, reboot, recycle, and remote command execution
+      - per-instance SSH key attach/detach via Instance entity
       - serverless endpoint update and synchronous route requests
     - Align serverless worker/log helper requests with the documented
       run.vast.ai request fields
     - Add mock coverage for the new account, instance, and serverless helpers
-
-0.001     2026-03-12 06:05:32Z
-
-    - Simplify live-test gating:
-      - C<VAST_LIVE_TEST=1> enables read-only live coverage
-      - C<VAST_LIVE_ALLOW_COST=1> enables all cost-incurring live tests,
-        including instance and volume lifecycle tests
-    - Add POD for the entity, transport, and IO helper classes
-    - Add direct unit tests for entity accessors and the LWP IO adapter
-    - Refresh README installation and usage examples
+    - Improve POD across all modules: document client attributes, add
+      SEE ALSO cross-references, document all Instance lifecycle methods
+    - Expand README with account management, serverless, and volume examples
 
 0.001     2026-03-12
+
     - Initial release
     - Add WWW::VastAI client with a shared HTTP layer and central operation map
     - Cover Vast.ai marketplace offers, instances, templates, volumes,
@@ -30,8 +25,9 @@ Revision history for WWW-VastAI
       and workergroups
     - Provide entity objects for the main resource types
     - Add mock-driven unit tests for all implemented resource groups
+    - Add POD for the entity, transport, and IO helper classes
+    - Add direct unit tests for entity accessors and the LWP IO adapter
     - Add opt-in live tests:
-      - no-cost read-only API coverage
-      - autonomous cost test that can pick a cheap offer, run a custom image,
-        probe it over HTTP, stop it, and clean it up
-      - volume lifecycle test with cleanup
+      - C<VAST_LIVE_TEST=1> enables read-only API coverage
+      - C<VAST_LIVE_ALLOW_COST=1> enables cost-incurring instance and volume
+        lifecycle tests
