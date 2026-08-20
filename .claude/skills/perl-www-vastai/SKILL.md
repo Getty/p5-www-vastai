@@ -1,6 +1,6 @@
 ---
-name: vast-ai-perl
-description: "WWW::VastAI — Perl client for the Vast.ai GPU cloud API. Usage patterns, architecture, testing."
+name: perl-www-vastai
+description: Use when talking to Vast.ai from Perl — WWW::VastAI usage patterns, architecture, adding an endpoint, testing.
 user-invocable: false
 allowed-tools: Read, Grep, Glob
 model: sonnet

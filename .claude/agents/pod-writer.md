@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Edit
 model: sonnet
 skills:
   - perl-release-dist-ini
-  - perl-release-author-getty
+  - getty-perl-release-author-getty
 ---
 
 You write POD documentation for Perl distributions.
@@ -20,7 +20,7 @@ ls dist.ini && echo "Dist::Zilla" || echo "Plain"
 ## For Dist::Zilla Distributions
 
 Use skills to understand configuration:
-- `perl-release-author-getty` for @Author::GETTY
+- `getty-perl-release-author-getty` for @Author::GETTY
 - `perl-release-dist-ini` for other plugin bundles
 
 ## For Plain Distributions
