@@ -1,0 +1,18 @@
+---
+class: standard
+completed: 2026-09-09T09:58:43Z
+created: 2026-08-31T04:21:11Z
+id: 2
+priority: low
+started: 2026-09-09T09:58:24Z
+status: done
+tags:
+- skills
+- housekeeping
+title: Decide home of vast-ai / vast-ai-cli skills; fix machine-specific vastai path
+updated: 2026-09-09T09:58:43Z
+---
+
+vast-ai (REST reference) and vast-ai-cli are repo-local (h=1). Provider domain knowledge like vast-ai is a candidate to promote to the shared library (Getty/skills, alongside docker-engine-api) once a SECOND consumer exists (e.g. a CLI-wrapper repo) — promotion is triggered by the second consumer, not anticipation, so keep them local for now. Also: vast-ai-cli hardcodes a machine-specific binary path (/storage/raid/home/getty/python/bin/vastai) — generalize it. Neither skill is briefed to an agent today; vast-ai-cli is invocable situationally only.
+
+2026-09-09 09:58 Generalized machine-specific vastai binary path in repo-local skill vast-ai-cli (h=1, not hardlinked): replaced /storage/raid/home/getty/python/bin/vastai with a generic reference (pip-installed vastai on PATH, or full path to the installed script). Skill-home question already settled in the ticket: vast-ai / vast-ai-cli stay repo-local; promotion to shared library is triggered by a second consumer, not anticipation, so no move performed. Commit 645f7b6.
