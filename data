@@ -1,0 +1,17 @@
+---
+class: standard
+completed: 2026-09-09T09:58:15Z
+created: 2026-08-31T04:21:08Z
+id: 1
+priority: medium
+started: 2026-09-09T09:57:56Z
+status: done
+tags:
+- docs
+title: Verify README.md is aligned with current POD/public API
+updated: 2026-09-09T09:58:15Z
+---
+
+The {{$NEXT}} Changes expanded API coverage (account/instance/serverless helpers) and the README. Confirm README.md examples still match the current public workflow in the POD, per the house invariant that README tracks the main module SYNOPSIS.
+
+2026-09-09 09:58 Verified README.md aligned with current public API and the main module SYNOPSIS (house invariant: README tracks SYNOPSIS). Confirmed every method used in README resolves to a real sub in lib/: offers->search, Offer->create_instance, Instance start/stop/bid_price/prepay/reboot/recycle/execute/logs/delete, user current/update/create_subaccount/subaccounts/connections/ipaddrs/transfer_credit, ssh_keys/api_keys/env_vars list+create, templates/volumes/endpoints/workergroups CRUD, invoices->list + Invoice type/amount/description. README Basic usage mirrors SYNOPSIS. No drift found; no change required.
