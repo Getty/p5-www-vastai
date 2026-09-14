@@ -7,7 +7,7 @@ briefing:
   skills:
     - www-vastai-core
     - getty-perl-moo
-    - vast-ai
+    - vastai-general
     - getty-perl-release-author-getty
     - kanban-issues-karr-cli
 ---

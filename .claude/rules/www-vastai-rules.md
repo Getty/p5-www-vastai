@@ -82,6 +82,6 @@ counts.
 ## Perl / Moo / release specifics — reference, don't restate
 
 Moo class and role patterns live in skill `getty-perl-moo`; the distribution's own
-architecture in `www-vastai-core`; the Vast.ai wire protocol in `vast-ai`; POD, `$VERSION`
+architecture in `www-vastai-core`; the Vast.ai wire protocol in `vastai-general`; POD, `$VERSION`
 and `[@Author::GETTY]` conventions in `getty-perl-release-author-getty` — all force-loaded
 for `www-vastai-*` agents. Do not duplicate that content here.

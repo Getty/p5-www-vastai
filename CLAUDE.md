@@ -17,5 +17,5 @@ the principle, the lane definition and the hazards are in
 The agents carry their knowledge via `briefing.skills` (see `.claude/agents/`); the main
 agent delegates rather than loading those skills. Skill sources live under
 `.claude/skills/` — architecture in `www-vastai-core`, the Vast.ai wire protocol in
-`vast-ai`, Moo and `[@Author::GETTY]` conventions in the shared Perl skills. Work is
+`vastai-general`, Moo and `[@Author::GETTY]` conventions in the shared Perl skills. Work is
 coordinated on the repo's own `karr` board.

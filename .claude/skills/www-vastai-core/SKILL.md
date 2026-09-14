@@ -11,7 +11,7 @@ model: sonnet
 `WWW::VastAI` is a Moo client for the Vast.ai REST APIs. It wraps the marketplace,
 instance lifecycle, templates, volumes, SSH/API keys, the current user and env
 vars, invoices, and serverless endpoints/workergroups. For the wire protocol
-itself (routes, bodies, operators) the `vast-ai` skill is the reference; this
+itself (routes, bodies, operators) the `vastai-general` skill is the reference; this
 skill is how *this distribution* is built.
 
 ## Layers

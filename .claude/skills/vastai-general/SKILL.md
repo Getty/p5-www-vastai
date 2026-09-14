@@ -1,5 +1,5 @@
 ---
-name: vast-ai
+name: vastai-general
 description: Use when calling the Vast.ai GPU cloud API — searching offers, creating and managing instances, volumes, serverless endpoints, templates.
 user-invocable: false
 allowed-tools: Read, Grep, Glob

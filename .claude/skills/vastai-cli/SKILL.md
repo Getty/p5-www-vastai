@@ -1,5 +1,5 @@
 ---
-name: vast-ai-cli
+name: vastai-cli
 description: Use when driving the vastai CLI — searching GPU offers, launching, creating, managing and destroying instances, volumes, templates, SSH access.
 user-invocable: false
 allowed-tools: Read, Grep, Glob, Bash
