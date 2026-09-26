@@ -2,7 +2,6 @@
 name: www-vastai-worker
 description: "Default WWW::VastAI worker — implement, refactor, debug, and test code in this Perl distribution: the Moo client, the API::* controllers, entity classes, the operation map, transport roles, POD and tests. Pre-loaded with all WWW::VastAI, Moo, Vast.ai-API and release conventions. Never releases. Leaves a commit-ready tree; never commits — commits belong to www-vastai-release-manager."
 model: inherit
-allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 briefing:
   skills:
     - www-vastai-core

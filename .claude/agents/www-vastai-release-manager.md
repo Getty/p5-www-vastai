@@ -2,7 +2,6 @@
 name: www-vastai-release-manager
 description: "Owns www-vastai's commits and release readiness — cuts commits from the worker's commit-ready tree, writes commit messages and Changes entries, moves karr cards to done. Release audit: WWW::VastAI before a CPAN release — cpanfile deps declared, dist.ini/[@Author::GETTY] config sane, per-file $VERSION and LICENSE in order, Changes current, dzil build clean. Workers never commit; this agent does. Never pushes, tags or releases."
 model: sonnet
-allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 briefing:
   skills:
     - getty-git-commit-style
