@@ -12,7 +12,7 @@ the principle, the lane definition and the hazards are in
 | Task | Agent |
 |---|---|
 | Implement / refactor / debug / test the client, `API::*` controllers, entities, operation map, HTTP/IO roles, inline POD | `www-vastai-worker` (default) |
-| Pre-release audit (CPAN) | `www-vastai-release-checker` |
+| Commits, `Changes`, card → done, pre-release audit | `www-vastai-release-manager` |
 
 The agents carry their knowledge via `briefing.skills` (see `.claude/agents/`); the main
 agent delegates rather than loading those skills. Skill sources live under
