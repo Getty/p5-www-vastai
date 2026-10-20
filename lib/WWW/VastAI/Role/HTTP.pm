@@ -7,6 +7,7 @@ use Carp qw(croak);
 use JSON::MaybeXS qw(decode_json encode_json);
 use Log::Any qw($log);
 use URI;
+use URI::QueryParam;
 use WWW::VastAI::HTTPRequest;
 use WWW::VastAI::LWPIO;
 

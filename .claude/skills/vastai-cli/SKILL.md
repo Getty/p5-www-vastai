@@ -8,7 +8,7 @@ model: sonnet
 
 # vastai CLI
 
-Binary at `/storage/raid/home/getty/python/bin/vastai`. API key stored at `~/.config/vastai/vast_api_key`.
+Binary: the `vastai` Python CLI (`pip install vastai`). Invoke it as `vastai` when it is on your `PATH`; otherwise use the full path to the installed script (e.g. the `vastai` under your Python environment's `bin/`). API key stored at `~/.config/vastai/vast_api_key`.
 
 Global flags: `--raw` (JSON output), `--explain` (show REST call), `--api-key KEY`.
 
