@@ -1,0 +1,37 @@
+---
+claimed_at: 2026-10-20T04:02:50Z
+claimed_by: k3-k5
+class: standard
+completed: 2026-10-20T04:02:35Z
+created: 2026-10-06T19:50:29Z
+id: 5
+priority: low
+started: 2026-10-20T03:20:27Z
+status: done
+tags:
+- errors
+- review-2026-10-06
+title: API errors lose the HTTP status and network failures look like API errors
+updated: 2026-10-20T04:02:50Z
+---
+
+`lib/WWW/VastAI/Role/HTTP.pm` (`_parse_response`): on a non-2xx the croak is `"Vast.ai API error: $message"`, where `$message` is `msg`/`message`/`error` of the body, or the raw body, or the bare status number. Method and path are passed in but only used for the success log line.
+
+Consequences: a caller cannot tell a 404 (instance gone) from a 429 (rate limit, where Vast.ai expects a back-off) or a 401 without parsing free text; an HTML error page from the CDN is dumped whole into the message; a connection failure (LWP's internal 500 with a text body) reads `Vast.ai API error: Can't connect to ...`. In addition `decode_json($content)` runs before the status check without `eval`, so a truncated or non-JSON body starting with `{` dies with a JSON::XS message, and `LWPIO::call` hands over `decoded_content` (characters for `text/*`), on which `decode_json` dies with `Wide character` as soon as the body has non-ASCII text.
+
+Done when: the error carries status, method and path (an exception object that stringifies to the current text keeps `$@ =~` matching working), the body is truncated in the message, network failures are distinguishable, JSON decoding is guarded and done on bytes (`$response->content` after `decoded_content( charset => 'none' )`).
+
+---
+Fleet review 2026-10-06 · kind: improvement · confidence: verified
+
+2026-10-20 03:58 Commit 437f587 on branch k3-k5 (worktree .claude/worktrees/k3-k5).
+
+Decision: the failure is reported as a new exception object WWW::VastAI::Error (Moo, like the house pattern of WWW::PayPal::Error / WWW::iDRAC::Error). It stringifies to 'Vast.ai API error: <message> (status 404, GET /instances/123/)', so the old prefix and the API message stay contiguous and $@ =~ /Vast.ai API error: .../ keeps matching, while status, method and path are appended in parentheses. A transport failure gets the distinct prefix 'Vast.ai connection error:' and the flag is_network, set in LWPIO from LWP's 'Client-Warning: Internal response' marker, so the HTTP role stays free of LWP details.
+
+Body: only a body-derived text is truncated (200 characters); the API's own msg/message/error field is kept unchanged, the bare status stays the fallback. The JSON parsing is guarded by an eval and a body that looks like JSON but does not parse is reported as 'unparseable response body: ...' instead of dying with a JSON parser message. The body is decoded from bytes (decoded_content(charset => 'none') resp. $response->content), so a non-ASCII answer no longer breaks the JSON decoding.
+
+Tests: t/errors.t (7 subtests) was red against the pre-k5 lib (7/7, behavioral, no 'Can't locate'); the byte contract is pinned by t/http-io.t.
+
+2026-10-20 04:00 Nach dem Rebase auf das lokale main (0e1aedc) heisst der k5-Commit jetzt 3ea0196 (vorher 437f587). Suite nach dem Rebase: prove -lr t/ gruen, 15 Dateien / 56 Tests, 3 Live-Tests per Design uebersprungen.
+
+2026-10-20 04:02 2026-10-20 Koordination: geprueft und nach main gezogen (Merge 3ea0196, ff-only). t/errors.t ist gegen das alte lib/ rot (7 von 7), t/http-io.t pinnt den Byte-Vertrag. Suite nach dem Merge: 15 Dateien, 56 Tests, gruen.
