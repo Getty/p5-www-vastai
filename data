@@ -1,0 +1,41 @@
+---
+claimed_at: 2026-10-20T04:02:40Z
+claimed_by: k3-k5
+class: standard
+completed: 2026-10-20T04:02:26Z
+created: 2026-10-06T19:50:19Z
+id: 3
+priority: high
+started: 2026-10-20T03:20:16Z
+status: done
+tags:
+- bug
+- git
+- deps
+- review-2026-10-06
+title: 'Branch phase2-vastai was never merged: the query_param fix (github issue 1)
+  and k2 are missing on main'
+updated: 2026-10-20T04:02:40Z
+---
+
+`git log --oneline main..phase2-vastai`:
+
+- `2f3fa32` Load URI::QueryParam in Role::HTTP to fix query_param crash (github #1)
+- `645f7b6` Generalize the machine-specific vastai binary path in vast-ai-cli skill (k2, card is `done`)
+
+On `main`, `lib/WWW/VastAI/Role/HTTP.pm:54` calls `$uri->query_param($name => $value)` with only `use URI;` loaded. `query_param` lives in `URI::QueryParam`; it was merged into URI itself only in a recent URI release (in the locally installed 5.35 `URI::QueryParam` is documented as a no-op). `cpanfile` requires `URI` without a version, so on an older URI every request that has `params` (offer search, instance listing with filters, ...) dies with `Can't locate object method "query_param" via package "URI::https"`. Locally (URI 5.35) it works, which is why the suite is green here.
+
+The branch carries the one-line fix, `t/query-params.t` (61 lines) and the `Changes` entry. Since then the skills were renamed on `main` (`vast-ai-cli` -> `vastai-cli`, commit `5e9d17b`), so `645f7b6` will conflict or land in a directory that no longer exists -- check whether the path fix is still needed in `.claude/skills/vastai-cli/SKILL.md`.
+
+Done when: `2f3fa32` is on `main` (or `cpanfile` pins the first URI version that ships `query_param` itself and says why), `t/query-params.t` is in the suite, k2's change is re-applied to the renamed skill if still relevant, and the branch is deleted.
+
+---
+Fleet review 2026-10-06 · kind: bug · confidence: verified
+
+2026-10-20 03:33 Fix uebernommen: use URI::QueryParam in lib/WWW/VastAI/Role/HTTP.pm (Commit 73854b7 auf Branch k3-k5). Regressionstest t/query-params.t reproduziert den Crash 'Can't locate object method query_param via package URI::https' in einem Kindprozess mit simuliertem altem URI (URI 5.35 liefert query_param selbst, der Bug ist lokal sonst nicht reproduzierbar) - ohne den Fix rot, mit dem Fix gruen. Der Pfad-Fix aus 645f7b6 (k2) war im umbenannten Skill .claude/skills/vastai-cli/SKILL.md weiterhin noetig (Zeile mit /storage/raid/home/getty/python/bin/vastai) und wurde dort angewendet. cpanfile bleibt unangetastet: URI::QueryParam ist Teil der URI-Distribution und funktioniert auf jeder URI-Version, eine Versionspflocke ist nicht noetig.
+
+2026-10-20 04:00 Branch phase2-vastai geloescht (Inhalt liegt in b7ad72e auf k3-k5). Nach dem Rebase auf das lokale main (0e1aedc) heisst der k3-Commit jetzt b7ad72e (vorher 73854b7). Suite nach dem Rebase: prove -lr t/ gruen, 15 Dateien / 56 Tests, 3 Live-Tests per Design uebersprungen.
+
+2026-10-20 04:01 Also found: main hat zwischenzeitlich .worktreeinclude bekommen (chore: skilletor sync, 0e1aedc) - der Branch wurde deshalb vor der Abschlussmeldung auf das lokale main rebased.
+
+2026-10-20 04:02 2026-10-20 Koordination: geprueft und nach main gezogen (Merge 3ea0196, ff-only). t/query-params.t reproduziert den Crash im Kindprozess und ist gegen das alte lib/ rot. Suite nach dem Merge: 15 Dateien, 56 Tests, gruen.
