@@ -1,0 +1,31 @@
+---
+claimed_at: 2026-10-20T04:02:45Z
+claimed_by: k3-k5
+class: standard
+completed: 2026-10-20T04:02:31Z
+created: 2026-10-06T19:50:24Z
+id: 4
+priority: medium
+started: 2026-10-20T03:20:22Z
+status: done
+tags:
+- deps
+- review-2026-10-06
+title: 'cpanfile: LWP::Protocol::https missing for an HTTPS-only API'
+updated: 2026-10-20T04:02:45Z
+---
+
+Both base URLs are HTTPS (`lib/WWW/VastAI.pm:28` `https://console.vast.ai`, `:43` `https://run.vast.ai`). `cpanfile` requires `LWP::UserAgent` and `HTTP::Request` but not `LWP::Protocol::https`, which is a separate distribution. On a clean install the first call comes back as LWP's internal `501 Protocol scheme 'https' is not supported (LWP::Protocol::https not installed)`, which `_parse_response` turns into `Vast.ai API error: 501 Protocol scheme ...` at best.
+
+p5-www-metaforge fixed the same thing in its k5.
+
+Done when: `cpanfile` requires `LWP::Protocol::https`.
+
+---
+Fleet review 2026-10-06 · kind: hygiene · confidence: verified
+
+2026-10-20 03:36 cpanfile requires LWP::Protocol::https jetzt fest neben LWP::UserAgent (Commit e8bcc7e auf Branch k3-k5); t/cpanfile.t prueft die deklarierte HTTPS-Transportkette (LWP::UserAgent, LWP::Protocol::https, HTTP::Request) und war ohne die Zeile rot. Gleiche Loesung wie im Schwester-Dist p5-www-metaforge (dort Commit 986943b). Unpinned, da LWP::Protocol::https keine Versionsanforderung an die API stellt. Offline nicht funktional testbar: die gemockte Suite spricht kein echtes HTTPS, ein echter Request waere ein Netzzugriff.
+
+2026-10-20 04:00 Nach dem Rebase auf das lokale main (0e1aedc) heisst der k4-Commit jetzt d03a416 (vorher e8bcc7e).
+
+2026-10-20 04:02 2026-10-20 Koordination: geprueft und nach main gezogen (Merge 3ea0196, ff-only). t/cpanfile.t prueft die deklarierte HTTPS-Kette; die Zeile LWP::Protocol::https fehlte auf main, der Test waere dort rot. Suite nach dem Merge: 15 Dateien, 56 Tests, gruen.
