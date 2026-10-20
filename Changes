@@ -18,6 +18,9 @@ Revision history for WWW-VastAI
     - Load URI::QueryParam in Role::HTTP so requests carrying query
       parameters work on every supported URI version, covered by
       t/query-params.t (GitHub issue 1)
+    - Declare LWP::Protocol::https as a prerequisite; the API is HTTPS-only,
+      so a fresh install died with "LWP::Protocol::https not installed" on
+      the first request
 
 0.001     2026-03-12
 
