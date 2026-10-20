@@ -6,6 +6,7 @@ use Moo;
 
 has status  => ( is => 'ro', required => 1 );
 has content => ( is => 'ro', default  => sub { '' } );
+has is_network => ( is => 'ro', default => sub { 0 } );
 
 1;
 
@@ -22,7 +23,14 @@ Returns the numeric HTTP status code.
 
 =head2 content
 
-Returns the decoded response body content.
+Returns the response body as received, as bytes. The bytes are decoded by the
+caller, so a JSON body keeps its encoding.
+
+=head2 is_network
+
+Returns true when the backend got no answer from the server at all (DNS,
+connect, TLS, timeout) and synthesized the response itself. False for every
+answer that came from the server.
 
 =head1 SEE ALSO
 

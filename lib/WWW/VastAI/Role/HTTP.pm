@@ -8,11 +8,15 @@ use JSON::MaybeXS qw(decode_json encode_json);
 use Log::Any qw($log);
 use URI;
 use URI::QueryParam;
+use WWW::VastAI::Error;
 use WWW::VastAI::HTTPRequest;
 use WWW::VastAI::LWPIO;
 
 requires 'api_key';
 requires 'base_url';
+
+# how much of a response body ends up in an error message
+my $ERROR_BODY_LIMIT = 200;
 
 has io => (
     is      => 'lazy',
@@ -91,23 +95,71 @@ sub _parse_response {
     my ($self, $response, $method, $path) = @_;
 
     my $content = $response->content;
+    $content = '' unless defined $content;
+
     my $data;
-    if (defined $content && $content =~ /^\s*[\{\[]/) {
-        $data = decode_json($content);
+    my $broken = 0;
+    if ( length $content && $content =~ /\A\s*[\{\[]/ ) {
+        $data = eval { decode_json($content) };
+        if ($@) {
+            $broken = 1;
+            undef $data;
+        }
     }
-    elsif (defined $content && length $content) {
+    elsif ( length $content ) {
         $data = $content;
     }
 
-    if ($response->status < 200 || $response->status >= 300) {
-        my $message = ref $data eq 'HASH'
-            ? ($data->{msg} || $data->{message} || $data->{error} || $response->status)
-            : (defined $data ? $data : $response->status);
-        croak "Vast.ai API error: $message";
+    my $status     = $response->status;
+    my $is_network = $response->is_network ? 1 : 0;
+
+    if ( $is_network || $broken || $status < 200 || $status >= 300 ) {
+        WWW::VastAI::Error->throw(
+            message    => $self->_error_message( $data, $content, $status, $broken, $is_network ),
+            method     => $method,
+            path       => $path,
+            status     => $status,
+            is_network => $is_network,
+            data       => $data,
+            body       => $content,
+        );
     }
 
-    $log->infof('%s %s -> %s', $method, $path, $response->status);
+    $log->infof('%s %s -> %s', $method, $path, $status);
     return $data;
+}
+
+sub _error_message {
+    my ( $self, $data, $content, $status, $broken, $is_network ) = @_;
+
+    if ($broken) {
+        return 'unparseable response body: ' . $self->_truncate($content);
+    }
+
+    if ($is_network) {
+        my $message = $self->_truncate($content);
+        return length $message ? $message : $status;
+    }
+
+    if ( ref $data eq 'HASH' ) {
+        my $message = $data->{msg} || $data->{message} || $data->{error};
+        $message = undef if ref $message;
+        return defined $message ? $message : $status;
+    }
+
+    return ( defined $data && length $data ) ? $self->_truncate($data) : $status;
+}
+
+sub _truncate {
+    my ( $self, $text ) = @_;
+
+    return '' unless defined $text;
+    $text =~ s/\s+/ /g;
+    $text =~ s/\A\s+//;
+    $text =~ s/\s+\z//;
+    return $text if length $text <= $ERROR_BODY_LIMIT;
+
+    return substr( $text, 0, $ERROR_BODY_LIMIT ) . '...';
 }
 
 sub _request {
@@ -166,8 +218,21 @@ Performs a PUT request with a JSON body.
 Performs a DELETE request. Vast.ai uses both path-only and JSON-body delete
 styles, so an optional body is supported.
 
+=head1 ERRORS
+
+A failed call throws a L<WWW::VastAI::Error>. It carries the C<status>, the
+C<method> and the C<path> of the failed request, the decoded C<data> and the
+raw C<body>. C<is_network> is true when no answer came from Vast.ai at all.
+
+The exception stringifies to C<Vast.ai API error: message (status 404, GET
+/instances/123/)>, so C<$@ =~ /Vast\.ai API error: .../> keeps matching. A
+transport failure reads C<Vast.ai connection error: ...> and a body that is no
+valid JSON is reported as C<unparseable response body: ...> instead of dying
+with a JSON parser message.
+
 =head1 SEE ALSO
 
-L<WWW::VastAI>, L<WWW::VastAI::Role::IO>, L<WWW::VastAI::LWPIO>
+L<WWW::VastAI>, L<WWW::VastAI::Error>, L<WWW::VastAI::Role::IO>,
+L<WWW::VastAI::LWPIO>
 
 =cut

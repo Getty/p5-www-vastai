@@ -30,9 +30,15 @@ sub call {
 
     my $response = $self->user_agent->request($http);
 
+    # LWP answers a transport failure itself: it never reaches the server and
+    # marks its own answer with "Client-Warning: Internal response".
+    my $is_network = ( $response->header('Client-Warning') || '' ) =~ /^Internal response/i ? 1 : 0;
+
     return WWW::VastAI::HTTPResponse->new(
-        status  => $response->code,
-        content => $response->decoded_content,
+        status     => $response->code,
+        # bytes, not characters: the caller decodes the JSON itself
+        content    => $response->decoded_content( charset => 'none' ),
+        is_network => $is_network,
     );
 }
 
@@ -56,7 +62,8 @@ Returns the underlying L<LWP::UserAgent> instance used for requests.
     my $response = $io->call($request);
 
 Executes a L<WWW::VastAI::HTTPRequest> and returns a
-L<WWW::VastAI::HTTPResponse>.
+L<WWW::VastAI::HTTPResponse>. The body is handed over as bytes and a
+transport failure is flagged with C<is_network>.
 
 =head1 SEE ALSO
 

@@ -21,6 +21,13 @@ Revision history for WWW-VastAI
     - Declare LWP::Protocol::https as a prerequisite; the API is HTTPS-only,
       so a fresh install died with "LWP::Protocol::https not installed" on
       the first request
+    - Report a failed API call as WWW::VastAI::Error: the exception carries
+      status, method and path, keeps the "Vast.ai API error: ..." text
+      recognizable, truncates a long error body and tells a transport
+      failure apart from an API error
+    - Decode API answers from bytes and guard the JSON parsing, so a body
+      with non-ASCII text or a truncated body no longer dies with a JSON
+      parser message
 
 0.001     2026-03-12
 

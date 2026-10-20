@@ -16,13 +16,16 @@ use WWW::VastAI::LWPIO;
     sub request {
         my ($self, $request) = @_;
         $self->{request} = $request;
-        return bless {
+        $self->{response} = bless {
             code    => 201,
             content => '{"ok":true}',
+            headers => {},
         }, 'Test::WWW::VastAI::FakeHTTPResponse';
+        return $self->{response};
     }
 
     sub request_seen { shift->{request} }
+    sub response_seen { shift->{response} }
 }
 
 {
@@ -30,7 +33,18 @@ use WWW::VastAI::LWPIO;
 
     sub code { shift->{code} }
 
-    sub decoded_content { shift->{content} }
+    sub header {
+        my ($self, $name) = @_;
+        return $self->{headers} ? $self->{headers}{ lc $name } : undef;
+    }
+
+    sub decoded_content {
+        my ($self, %args) = @_;
+        $self->{decoded_content_args} = {%args};
+        return $self->{content};
+    }
+
+    sub decoded_content_args { shift->{decoded_content_args} }
 }
 
 subtest 'request and response wrappers expose payload state' => sub {
@@ -83,6 +97,12 @@ subtest 'lwpio converts internal request objects to lwp requests' => sub {
     isa_ok($response, 'WWW::VastAI::HTTPResponse');
     is($response->status, 201, 'lwpio forwards response status');
     is($response->content, '{"ok":true}', 'lwpio forwards decoded content');
+    is($response->is_network, 0, 'an answer from the server is no network error');
+    is_deeply(
+        $ua->response_seen->decoded_content_args,
+        { charset => 'none' },
+        'lwpio takes the body as bytes'
+    );
 
     my $sent = $ua->request_seen;
     isa_ok($sent, 'HTTP::Request');
