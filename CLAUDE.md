@@ -6,7 +6,8 @@
 ## Delegation
 
 Delegate behavior-relevant code to the right agent instead of touching it yourself —
-the principle, the lane definition and the hazards are in
+the delegation lock and the publish gate are shared house rules (skilletor bundle
+`getty-cpan-dist@getty`); the lane definition and the hazards are in
 `.claude/rules/www-vastai-rules.md` (auto-loaded every turn).
 
 | Task | Agent |
