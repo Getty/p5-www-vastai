@@ -1,8 +1,8 @@
 requires 'HTTP::Request';
 requires 'JSON::MaybeXS';
-requires 'LWP::UserAgent';
-requires 'LWP::Protocol::https';
 requires 'Log::Any';
+requires 'LWP::Protocol::https';
+requires 'LWP::UserAgent';
 requires 'Moo';
 requires 'namespace::clean';
 requires 'URI';
