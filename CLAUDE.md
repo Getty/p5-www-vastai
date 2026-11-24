@@ -15,7 +15,7 @@ the delegation lock and the publish gate are shared house rules (skilletor bundl
 | Implement / refactor / debug / test the client, `API::*` controllers, entities, operation map, HTTP/IO roles, inline POD | `www-vastai-worker` (default) |
 | Commits, `Changes`, card → done, pre-release audit | `www-vastai-release-manager` |
 
-The agents carry their knowledge via `briefing.skills` (see `.claude/agents/`); the main
+The agents carry their knowledge via `skills:` (see `.claude/agents/`); the main
 agent delegates rather than loading those skills. Skill sources live under
 `.claude/skills/` — architecture in `www-vastai-core`, the Vast.ai wire protocol in
 `vastai-general`, Moo and `[@Author::GETTY]` conventions in the shared Perl skills. Work is
